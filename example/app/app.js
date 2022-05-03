@@ -7,6 +7,8 @@ import { AppNavigator, useNavigationPersistence } from "./navigators"
 import { initFonts } from "./theme/fonts";
 import { ErrorBoundary } from "./screens/Error/errorBoundary"
 import { RootStoreProvider, setupRootStore } from "./models"
+import Config from "react-native-config";
+import { subject, setInit } from "react-native-module-template";
 const App = ({ }) => {
     const [rootStore, setRootStore] = useState(undefined)
     useEffect(() => {
@@ -14,6 +16,13 @@ const App = ({ }) => {
             await initFonts()
             setupRootStore().then(setRootStore)
         })()
+        setInit({ api_url: Config.API_URL, token: "token demo", project: "demo project" })
+        // const sub = subject.subscribe({
+        //     next: (v) => {
+        //         setInit({ api_url: Config.API_URL, token: v.token, project: v.project.name })
+        //     },
+        // });
+        // return () => sub.unsubscribe()
     }, [])
 
     const {

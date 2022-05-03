@@ -6,17 +6,25 @@ import { store } from '../../models';
 // interface demoScreenProps { }
 
 const DemoScreen = observer(() => {
-    const { demoStore } = store
-    const { demo } = demoStore
+    const { initStore } = store
+
 
     React.useEffect(() => {
         console.log('====================================');
-        console.log("demoStore", demo);
+        console.log("demoStore", initStore);
         console.log('====================================');
     }, [])
     return (
         <View style={styles.container}>
-            <Text>Hello Demo</Text>
+            <View>
+                <Text>Hello Demo Mini App Data</Text>
+                <View style={{ marginTop: 20, flexDirection: "column", justifyContent: "flex-start" }}>
+                    <Text>Api: {initStore.api_url}</Text>
+                    <Text>Project: {initStore.project}</Text>
+                    <Text>Token: {initStore.token}</Text>
+                </View>
+            </View>
+
         </View>
     );
 });
