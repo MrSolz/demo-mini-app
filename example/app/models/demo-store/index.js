@@ -4,14 +4,13 @@ import { withEnvironment } from "../extensions/with-env"
 export const DemoStoreModel = types
     .model("DemoStore")
     .props({
-        demo: "demo main store"
+        token: "demo main store"
     })
     .extend(withEnvironment)
     .actions((self) => ({
-
-    }))
-    .actions((self) => ({
-
+        saveDemo: (characterSnapshots) => {
+            self.token = characterSnapshots
+        },
     }))
 
 export const createDemoStoreModelDefaultModel = () => types.optional(DemoStoreModel, {})

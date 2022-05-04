@@ -9,21 +9,35 @@ import { ErrorBoundary } from "./screens/Error/errorBoundary"
 import { RootStoreProvider, setupRootStore } from "./models"
 import Config from "react-native-config";
 import { subject, setInit } from "react-native-module-template";
+import { Linking } from "react-native";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 const App = ({ }) => {
     const [rootStore, setRootStore] = useState(undefined)
+    const [token, setToken] = useState("")
+
     useEffect(() => {
         ; (async () => {
             await initFonts()
             setupRootStore().then(setRootStore)
+            try {
+                const initialUrl = await Linking.getInitialURL();
+                if (initialUrl) {
+                    console.log("initialUrl", initialUrl);
+                    const data = JSON.parse(decodeURIComponent(initialUrl.replace("ubox://mini/login/", "")))
+                    AsyncStorage.setItem("token", data.token)
+                    // AsyncStorage.setItem("token",  )
+                }
+                console.log("Linking.getInitialURL()", initialUrl);
+
+            } catch (error) {
+                console.log("error", error);
+            }
         })()
         setInit({ api_url: Config.API_URL, token: "token demo", project: "demo project" })
-        // const sub = subject.subscribe({
-        //     next: (v) => {
-        //         setInit({ api_url: Config.API_URL, token: v.token, project: v.project.name })
-        //     },
-        // });
-        // return () => sub.unsubscribe()
+
     }, [])
+
+
 
     const {
         initialNavigationState,
